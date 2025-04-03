@@ -18,6 +18,11 @@ const CoursesPage = () => {
       instructor: "Eng. Jean-Luc Fontaine",
       category: "CAD",
       cost: "25,000 MUR",
+      objectives: [
+        "Master ",
+        "Develop practical, real-world skills",
+        "Gain industry-recognized certification",
+      ],
     },
 
     {
@@ -31,6 +36,11 @@ const CoursesPage = () => {
       instructor: "Dr. Emma Dubois",
       category: "Management",
       cost: "20,000 MUR",
+      objectives: [
+        "Understand project lifecycle and methodologies",
+        "Learn to manage project scope, time, and cost",
+        "Develop risk management strategies",
+      ],
     },
 
     {

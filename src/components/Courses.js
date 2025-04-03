@@ -18,6 +18,11 @@ const FeaturedCourses = () => {
       instructor: "Eng. Jean-Luc Fontaine",
       category: "CAD",
       cost: "25,000 MUR",
+      objectives: [
+        "Master core CAD concepts and techniques",
+        "Develop practical, real-world skills",
+        "Gain industry-recognized certification",
+      ],
     },
     {
       id: 2,
