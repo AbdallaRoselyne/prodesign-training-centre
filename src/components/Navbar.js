@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assests/logo_prodesign_png_03_03.png";
 
@@ -7,6 +7,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  const dropdownTimeoutRef = useRef(null);
 
   // Close dropdowns when clicking outside
   const handleClickOutside = (event) => {
@@ -22,9 +23,12 @@ const Navbar = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      clearTimeout(dropdownTimeoutRef.current);
+    };
   }, []);
 
   const scrollToSection = (sectionId) => {
@@ -34,6 +38,18 @@ const Navbar = () => {
     }
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
+  };
+
+  // Improved hover handling with delay for better UX
+  const handleDropdownHover = (open) => {
+    clearTimeout(dropdownTimeoutRef.current);
+    if (open) {
+      setIsDropdownOpen(true);
+    } else {
+      dropdownTimeoutRef.current = setTimeout(() => {
+        setIsDropdownOpen(false);
+      }, 200); // Small delay to allow moving to dropdown
+    }
   };
 
   return (
@@ -50,8 +66,8 @@ const Navbar = () => {
             <div
               className="relative"
               ref={dropdownRef}
-              onMouseEnter={() => setIsDropdownOpen(true)}
-              onMouseLeave={() => setIsDropdownOpen(false)}
+              onMouseEnter={() => handleDropdownHover(true)}
+              onMouseLeave={() => handleDropdownHover(false)}
             >
               <Link
                 to="/"
@@ -76,53 +92,59 @@ const Navbar = () => {
                 </svg>
               </Link>
 
-              {isDropdownOpen && (
-                <div className="absolute mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                  <div className="py-1">
-                    <button
-                      onClick={() => scrollToSection("hero")}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple"
-                    >
-                      Apply Now
-                    </button>
-                    <button
-                      onClick={() => scrollToSection("why-prodesign")}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple"
-                    >
-                      Why ProDesign
-                    </button>
-                    <button
-                      onClick={() => scrollToSection("Courses")}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple"
-                    >
-                      Courses
-                    </button>
-                    <button
-                      onClick={() => scrollToSection("partners")}
-                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple"
-                    >
-                      Partners
-                    </button>
-                  </div>
+              <div
+                className={`absolute mt-0 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50 transition-all duration-200 ease-in-out ${
+                  isDropdownOpen
+                    ? "opacity-100 translate-y-0 pointer-events-auto"
+                    : "opacity-0 -translate-y-2 pointer-events-none"
+                }`}
+                onMouseEnter={() => handleDropdownHover(true)}
+                onMouseLeave={() => handleDropdownHover(false)}
+              >
+                <div className="py-1">
+                  <button
+                    onClick={() => scrollToSection("hero")}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple transition-colors duration-150"
+                  >
+                    Apply Now
+                  </button>
+                  <button
+                    onClick={() => scrollToSection("why-prodesign")}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple transition-colors duration-150"
+                  >
+                    Why ProDesign
+                  </button>
+                  <button
+                    onClick={() => scrollToSection("FeaturedCourses")}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple transition-colors duration-150"
+                  >
+                    Courses
+                  </button>
+                  <button
+                    onClick={() => scrollToSection("partners")}
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-purple transition-colors duration-150"
+                  >
+                    Partners
+                  </button>
                 </div>
-              )}
+              </div>
             </div>
 
             <Link
               to="/courses"
-              className="text-black hover:text-purple px-3 py-2 text-lg font-medium"
+              className="text-black hover:text-purple px-3 py-2 text-lg font-medium transition-colors duration-150"
             >
               Courses
             </Link>
             <Link
               to="/about"
-              className="text-black hover:text-purple px-3 py-2 text-lg font-medium"
+              className="text-black hover:text-purple px-3 py-2 text-lg font-medium transition-colors duration-150"
             >
               About Us
             </Link>
             <Link
               to="/contact"
-              className="text-black hover:text-purple px-3 py-2 text-lg font-medium"
+              className="text-black hover:text-purple px-3 py-2 text-lg font-medium transition-colors duration-150"
             >
               Contact Us
             </Link>
@@ -132,7 +154,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="mobile-menu-button text-black hover:text-purple focus:outline-none"
+              className="mobile-menu-button text-black hover:text-purple focus:outline-none transition-colors duration-150"
               aria-label="Menu"
             >
               <svg
@@ -167,13 +189,13 @@ const Navbar = () => {
         ref={mobileMenuRef}
         className={`md:hidden ${
           isMobileMenuOpen ? "block" : "hidden"
-        } bg-white shadow-lg`}
+        } bg-white shadow-lg transition-all duration-300 ease-in-out`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1">
           <div className="relative">
             <Link
               to="/"
-              className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100 flex justify-between items-center"
+              className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100 flex justify-between items-center transition-colors duration-150"
               onClick={() => {
                 setIsMobileMenuOpen(false);
                 window.scrollTo({ top: 0, behavior: "smooth" });
@@ -206,53 +228,57 @@ const Navbar = () => {
               </button>
             </Link>
 
-            {isDropdownOpen && (
+            <div
+              className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                isDropdownOpen ? "max-h-40" : "max-h-0"
+              }`}
+            >
               <div className="pl-4 mt-1 space-y-1">
                 <button
                   onClick={() => scrollToSection("hero")}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100 transition-colors duration-150"
                 >
                   Apply Now
                 </button>
                 <button
                   onClick={() => scrollToSection("why-prodesign")}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100 transition-colors duration-150"
                 >
                   Why ProDesign
                 </button>
                 <button
-                  onClick={() => scrollToSection("courses")}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100"
+                  onClick={() => scrollToSection("FeaturedCourses")}
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100 transition-colors duration-150"
                 >
                   Courses
                 </button>
                 <button
                   onClick={() => scrollToSection("partners")}
-                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100"
+                  className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-purple hover:bg-gray-100 transition-colors duration-150"
                 >
                   Partners
                 </button>
               </div>
-            )}
+            </div>
           </div>
 
           <Link
             to="/courses"
-            className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100"
+            className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100 transition-colors duration-150"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Courses
           </Link>
           <Link
             to="/about"
-            className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100"
+            className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100 transition-colors duration-150"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             About Us
           </Link>
           <Link
             to="/contact"
-            className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100"
+            className="block px-3 py-2 rounded-md text-base font-medium text-black hover:text-purple hover:bg-gray-100 transition-colors duration-150"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Contact Us
