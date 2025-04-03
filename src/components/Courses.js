@@ -1,166 +1,194 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   FaCalendarAlt,
-  FaMapMarkerAlt,
-  FaDollarSign,
-  FaClock,
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import trainingImage from "../assests/training.jpg";
+import courseImage1 from "../assests/hero.png";
+import courseImage2 from "../assests/training.jpg";
+import courseImage3 from "../assests/autodesk.jpg";
 
-const Courses = () => {
-  const courses = [
+const FeaturedCourses = () => {
+  const featuredCourses = [
     {
       id: 1,
-      name: "Autodesk Revit Beginner Training",
-      date: "Oct 15, 2023",
-      cost: "50000 Mur",
-      location: "Prodesign Engineering Consultants Ltd",
+      name: "AutoCAD Professional Certification",
+      date: "15 June 2024",
       duration: "6 Weeks",
       description:
-        "Learn the fundamentals of construction management and project planning.",
-      image: trainingImage,
+        "Master technical drawing and 2D/3D modeling for engineering applications.",
+      image: courseImage1,
+      instructor: "Eng. Jean-Luc Fontaine",
+      category: "CAD",
+      cost: "25,000 MUR",
     },
     {
       id: 2,
-      name: "Green Building Certification Workshop",
-      date: "Nov 1, 2023",
-      cost: "60000 Mur",
-      location: "Prodesign Engineering Consultants Ltd",
-      duration: "8 Weeks",
+      name: "Project Management Fundamentals",
+      date: "1 July 2024",
+      duration: "4 Weeks",
       description:
-        "Master the art of building design and architectural concepts.",
-      image: trainingImage, 
+        "Learn the essentials of project management in engineering and construction.",
+      image: courseImage2,
+      instructor: "Dr. Emma Dubois",
+      category: "Management",
+      cost: "20,000 MUR",
     },
     {
       id: 3,
-      name: "Safety Training",
-      date: "Dec 5, 2023",
-      cost: "40000 Mur",
-      location: "Prodesign Engineering Consultants Ltd",
-      duration: "4 Weeks",
+      name: "BIM with Revit Architecture",
+      date: "Ongoing - Cohort 5",
+      duration: "10 Weeks",
       description:
-        "Gain essential safety skills for construction and industrial environments.",
-      image: trainingImage, 
+        "Transform your architectural workflow with Building Information Modeling.",
+      image: courseImage3,
+      instructor: "Prof. Marie-Claire Leduc",
+      category: "BIM",
+      cost: "30,000 MUR",
     },
     {
       id: 4,
-      name: "Advanced Construction",
-      date: "Jan 10, 2024",
-      cost: "70000 Mur",
-      location: "Prodesign Engineering Consultants Ltd",
-      duration: "10 Weeks",
+      name: "Advanced Structural Design",
+      date: "22 July 2024",
+      duration: "8 Weeks",
       description:
-        "Advanced techniques in construction and project management.",
-      image: trainingImage, 
+        "Advanced techniques in structural analysis and design for civil engineers.",
+      image: courseImage1,
+      instructor: "Dr. Sarah Chen",
+      category: "Structural Engineering",
+      cost: "35,000 MUR",
     },
   ];
 
   const [startIndex, setStartIndex] = useState(0);
 
-  // Function to navigate left
   const handlePrev = () => {
     setStartIndex((prev) => (prev > 0 ? prev - 1 : prev));
   };
 
-  // Function to navigate right
   const handleNext = () => {
-    setStartIndex((prev) => (prev < courses.length - 3 ? prev + 1 : prev));
+    setStartIndex((prev) => (prev < featuredCourses.length - 3 ? prev + 1 : prev));
   };
 
-  // Get the visible courses based on the startIndex
-  const visibleCourses = courses.slice(startIndex, startIndex + 3);
+  const visibleCourses = featuredCourses.slice(startIndex, startIndex + 3);
 
   return (
-    <section id="Courses" className="bg-white py-16">
-      <div className="container mx-auto px-4">
-        {/* Enroll Now Section */}
+    <section className="bg-gray-50 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-black uppercase">
-            Enroll Now
-          </h1>
-          <p className="text-gray mt-4">
-            Stay ahead of the curve with our upcoming training programs. Secure
-            your place today in one of our professionally curated courses.
+          <h2 className="text-3xl font-bold text-black">
+            <span className="border-b-4 border-purple pb-2">
+              Featured Courses
+            </span>
+          </h2>
+          <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
+            Our most popular professional development programs designed by 
+            engineers, for engineers.
           </p>
         </div>
 
-        {/* Courses Section with Navigation Arrows */}
+        {/* Courses Carousel */}
         <div className="relative">
-          {/* Left Arrow */}
-          {startIndex > 0 && (
-            <button
-              onClick={handlePrev}
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300"
-            >
-              <FaChevronLeft className="text" />
-            </button>
-          )}
+          {/* Navigation Arrows */}
+          <button
+            onClick={handlePrev}
+            disabled={startIndex === 0}
+            className={`absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-6 z-10 bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition duration-300 ${
+              startIndex === 0 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FaChevronLeft className="text-purple" />
+          </button>
+
+          <button
+            onClick={handleNext}
+            disabled={startIndex >= featuredCourses.length - 3}
+            className={`absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-6 z-10 bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition duration-300 ${
+              startIndex >= featuredCourses.length - 3 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+          >
+            <FaChevronRight className="text-purple" />
+          </button>
 
           {/* Courses Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {visibleCourses.map((course) => (
               <div
                 key={course.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+                className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-shadow duration-300"
               >
-                {/* Course Image */}
-                <img
-                  src={course.image}
-                  alt={course.name}
-                  className="w-full h-48 object-cover"
-                />
-                {/* Course Name */}
-                <h2 className="text-xl font-semibold text-purple text-center mt-4">
-                  {course.name}
-                </h2>
-                {/* Course Details (Icons) */}
-                <div className="grid grid-cols-2 gap-4 px-6 mt-4">
-                  <div className="flex items-center space-x-2">
-                    <FaCalendarAlt className="text-gray text-xl" />
-                    <span className="text-gray text-xs">{course.date}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <FaMapMarkerAlt className="text-gray text-xl" />
-                    <span className="text-gray text-xs">{course.location}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <FaDollarSign className="text-gray text-xl" />
-                    <span className="text-gray text-xs">{course.cost}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <FaClock className="text-gray text-xl" />
-                    <span className="text-gray text-xs">{course.duration}</span>
+                <div className="relative">
+                  <img
+                    src={course.image}
+                    alt={course.name}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute top-4 right-4 bg-purple text-white text-xs font-bold px-3 py-1 rounded-full">
+                    {course.date.includes("Ongoing") ? "ONGOING" : `STARTS ${course.date}`}
                   </div>
                 </div>
-                {/* Course Description */}
-                <p className="text-black px-6 mt-4 whitespace-normal">
-                  {course.description}
-                </p>
-                {/* Apply Now Button */}
-                <div className="px-6 mt-4 mb-6">
-                  <button className="w-full bg-purple text-white py-2 rounded-lg font-semibold hover:bg-purple-700 transition duration-300">
-                    Apply Now
-                  </button>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-2">
+                    <span className="bg-blue-100 text-purple text-xs font-medium px-2.5 py-0.5 rounded">
+                      {course.category}
+                    </span>
+                    <span className="text-sm font-medium text-gray-600">
+                      {course.duration}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    {course.name}
+                  </h3>
+                  <p className="text-gray-600 mb-6">{course.description}</p>
+                  <div className="flex justify-between items-center mb-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Instructor</p>
+                      <p className="font-medium">{course.instructor}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm text-gray-500">Cost</p>
+                      <p className="font-bold text-purple">{course.cost}</p>
+                    </div>
+                  </div>
+                  <Link
+                    to={`/apply?courseId=${course.id}`}
+                    className="block w-full bg-purple hover:bg-purple-700 text-white text-center py-3 px-4 rounded-md transition duration-300"
+                  >
+                    {course.date.includes("Ongoing") ? "Join Cohort" : "Apply Now"}
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Right Arrow */}
-          {startIndex < courses.length - 3 && (
-            <button
-              onClick={handleNext}
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 transition duration-300"
+        {/* View All Button */}
+        <div className="text-center mt-12">
+          <Link
+            to="/courses"
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-purple hover:bg-purple-700 transition duration-300"
+          >
+            View All Courses
+            <svg
+              className="ml-2 -mr-1 w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              <FaChevronRight className="text-gray-600" />
-            </button>
-          )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>
   );
 };
 
-export default Courses;
+export default FeaturedCourses;
