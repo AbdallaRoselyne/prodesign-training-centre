@@ -103,9 +103,9 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-[#818181] mt-8 pt-6 text-center text-[#818181]">
+        <div className="border-t border-[#818181] mt-8 pt-6 text-center text-black">
           <p>
-            © {new Date().getFullYear()} ProDesign Training Centre. All rights
+            © {new Date().getFullYear()} Prodesign Learning Centre. All rights
             reserved.
           </p>
         </div>

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  FaCalendarAlt,
-  FaChevronLeft,
-  FaChevronRight,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import courseImage1 from "../assests/hero.png";
 import courseImage2 from "../assests/training.jpg";
 import courseImage3 from "../assests/autodesk.jpg";
@@ -68,7 +64,9 @@ const FeaturedCourses = () => {
   };
 
   const handleNext = () => {
-    setStartIndex((prev) => (prev < featuredCourses.length - 3 ? prev + 1 : prev));
+    setStartIndex((prev) =>
+      prev < featuredCourses.length - 3 ? prev + 1 : prev
+    );
   };
 
   const visibleCourses = featuredCourses.slice(startIndex, startIndex + 3);
@@ -84,7 +82,7 @@ const FeaturedCourses = () => {
             </span>
           </h2>
           <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
-            Our most popular professional development programs designed by 
+            Our most popular professional development programs designed by
             engineers, for engineers.
           </p>
         </div>
@@ -106,7 +104,9 @@ const FeaturedCourses = () => {
             onClick={handleNext}
             disabled={startIndex >= featuredCourses.length - 3}
             className={`absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-6 z-10 bg-white p-3 rounded-full shadow-md hover:bg-gray-100 transition duration-300 ${
-              startIndex >= featuredCourses.length - 3 ? "opacity-50 cursor-not-allowed" : ""
+              startIndex >= featuredCourses.length - 3
+                ? "opacity-50 cursor-not-allowed"
+                : ""
             }`}
           >
             <FaChevronRight className="text-purple" />
@@ -126,7 +126,9 @@ const FeaturedCourses = () => {
                     className="w-full h-48 object-cover"
                   />
                   <div className="absolute top-4 right-4 bg-purple text-white text-xs font-bold px-3 py-1 rounded-full">
-                    {course.date.includes("Ongoing") ? "ONGOING" : `STARTS ${course.date}`}
+                    {course.date.includes("Ongoing")
+                      ? "ONGOING"
+                      : `STARTS ${course.date}`}
                   </div>
                 </div>
                 <div className="p-6">
@@ -153,10 +155,11 @@ const FeaturedCourses = () => {
                     </div>
                   </div>
                   <Link
-                    to={`/apply?courseId=${course.id}`}
-                    className="block w-full bg-purple hover:bg-purple-700 text-white text-center py-3 px-4 rounded-md transition duration-300"
+                    to={`/course/${course.id}`}
+                    state={{ course }}
+                    className="mt-6 block w-full bg-purple hover:bg-purple-800 text-white text-center py-3 px-4 rounded-md transition duration-300"
                   >
-                    {course.date.includes("Ongoing") ? "Join Cohort" : "Apply Now"}
+                    Apply Now
                   </Link>
                 </div>
               </div>

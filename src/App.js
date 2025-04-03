@@ -6,6 +6,7 @@ import CoursesPage from "./Pages/Courses";
 import AboutUs from "./Pages/AboutUs";
 import ContactUs from "./Pages/ContactUs";
 import Footer from "./Pages/Footer";
+import CourseDetailsPage from "./Pages/CourseDetailsPage";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/courses" element={<CoursesPage />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/course/:id" element={<CourseDetailsPage />} />
+        {/* Added a route for CourseDetailsPage */}
       </Routes>
 
       <Footer />

@@ -30,11 +30,11 @@ const CoursesPage = () => {
       image: courseImage2,
       instructor: "Dr. Emma Dubois",
       category: "Management",
-      cost: "20,000 MUR", 
+      cost: "20,000 MUR",
     },
 
     {
-      id: 2,
+      id: 3,
       name: "Advanced Structural Design",
       date: "22 July 2024",
       duration: "8 Weeks",
@@ -49,7 +49,7 @@ const CoursesPage = () => {
 
   const ongoingCourses = [
     {
-      id: 3,
+      id: 4,
       name: "BIM with Revit Architecture",
       date: "Ongoing - Cohort 5",
       duration: "10 Weeks",
@@ -62,7 +62,7 @@ const CoursesPage = () => {
       progress: 40, // percentage completed
     },
     {
-      id: 4,
+      id: 5,
       name: "Construction Project Management",
       date: "Ongoing - Cohort 3",
       duration: "12 Weeks",
@@ -203,8 +203,9 @@ const CoursesPage = () => {
                     </div>
                   </div>
                   <Link
-                    to={`/apply?courseId=${course.id}`}
-                    className="mt-6 block w-full bg-purple hover:bg-violet-300 text-white text-center py-3 px-4 rounded-md transition duration-300"
+                    to={`/course/${course.id}`}
+                    state={{ course }} // Pass the entire course object
+                    className="mt-6 block w-full bg-purple hover:bg-purple-800 text-white text-center py-3 px-4 rounded-md transition duration-300"
                   >
                     Apply Now
                   </Link>
@@ -291,7 +292,8 @@ const CoursesPage = () => {
                     </div>
                   </div>
                   <Link
-                    to={`/apply?courseId=${course.id}`}
+                    to={`/course/${course.id}`}
+                    state={{ course }} // Pass the entire course object
                     className="mt-6 block w-full bg-lime-300 hover:bg-lime-700 text-black text-center py-3 px-4 rounded-md transition duration-300"
                   >
                     Join Current Cohort
